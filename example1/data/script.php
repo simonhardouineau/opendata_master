@@ -31,7 +31,7 @@ foreach($stations as $station){
 
 
 // DB CONNECTION
-$dbconf = json_decode(file_get_contents(__DIR__.'/_db/conf.json'),true);
+$dbconf = json_decode(file_get_contents(__DIR__.'/../_db/conf.json'),true);
 $mysqli = new mysqli($dbconf["host"], $dbconf["username"], $dbconf["passwd"], $dbconf["dbname"]);
 $mysqli->set_charset ( "utf8");
 
