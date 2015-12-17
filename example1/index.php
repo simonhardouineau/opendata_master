@@ -8,16 +8,28 @@
             #container{
                 min-width: 100vw;
                 height: 100vh;
-                overflow: scroll;
             }
 
-            #container>b{
+            .bar{
                 position: relative;
+                z-index: 1;
                 display: inline-block;
-                width: 10px;
-                margin: 0 10px;
+                width: 4px;
+                margin: 0 4px;
+                height: 150px;
+                background-color: #aaa;
+
+
+            }
+            .bar>b{
+                position: absolute;
+                left: 0;
+                z-index: 2;
+                bottom: 0;
+                display: block;
+                width: 100%;
+
                 background-color: #000;
-                word-wrap: nowrap;
             }
         </style>
     </head>
@@ -30,7 +42,6 @@
         var json;
         d3.json("data/script_json.php",function(data){
             json = data;
-            console.log(json);
             display();
         });
 
@@ -38,17 +49,24 @@
 
         var display = function(){
             // Update…
-            var b = container.selectAll("b")
+            var b = container.selectAll(".bar>b")
                 .data(json)
-                .style("height", function(d) { return d.places*10 + "px"; });
+                .style("height", pourcentPlace);
 
             // Enter…
-            b.enter().append("b")
-                .style("height", function(d) { return d.places*10 + "px"; });
+            b.enter().append("div")
+                .attr("class","bar")
+                .append("b")
+                .style("height", pourcentPlace);
 
             // Exit…
             b.exit().remove();
         }
+
+        var pourcentPlace = function(d) {
+            var pourcent = (d.places/(d.places + d.velos)) * 1500;
+            return pourcent == NaN ? 0 : pourcent ;
+        };
 
     </script>
     </body>
