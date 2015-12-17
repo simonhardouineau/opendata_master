@@ -37,7 +37,7 @@
         <div id="container">
 
         </div>
-    <script src="vendor/d3/d3.min.js"></script>
+    <script src="../vendor/d3/d3.min.js"></script>
     <script>
         var json;
         d3.json("data/script_json.php",function(data){
