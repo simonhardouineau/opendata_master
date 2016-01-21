@@ -50,8 +50,23 @@
 
     vector.on('change', function(evt) {
         if(vector.getState() === 'ready'){
+            var compt = 0;
             vector.forEachFeature(function(feature){
                 console.log(feature.get("NOM"));
+                style = new ol.style.Style({
+                    fill: new ol.style.Fill({ color: '#000' }),
+                    stroke: new ol.style.Stroke({ color: '#000' }),
+                    text: new ol.style.Text({
+                        text: feature.get('name'),
+                        font: '12px Calibri,sans-serif',
+                        fill: new ol.style.Fill({ color: '#000' }),
+                        stroke: new ol.style.Stroke({
+                            color: '#fff', width: 2
+                        })
+                    })
+                });
+                feature.setStyle(style);
+                compt++;
             });
         }
     });
