@@ -18,6 +18,8 @@
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript">
+    var arrayReady = new Event('arrayReady');
+
     var vector = new ol.source.Vector({
         url: 'data/doc.geojson',
         format: new ol.format.GeoJSON(),
@@ -67,9 +69,10 @@
 
 
     var arrayFeatures = [];
+    var bool = false;
 
     vector.on('change', function(evt) {
-        if(vector.getState() === 'ready'){
+        if(vector.getState() === 'ready' && !bool){
             var compt = 0;
 
             vector.forEachFeature(function(feature){
@@ -83,6 +86,9 @@
                 arrayFeatures[feature.get("GID")] = feature;
                 compt++;
             });
+
+            bool = true;
+            vector.dispatchEvent(arrayReady);
         }
     });
 
@@ -106,7 +112,7 @@
         })
     };
 
-    setTimeout(functionColor, 1000);
+    vector.addEventListener('arrayReady', functionColor, false);
 
     var highlight;
     var displayFeatureInfo = function(pixel) {
